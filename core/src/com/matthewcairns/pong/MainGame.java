@@ -1,6 +1,7 @@
 package com.matthewcairns.pong;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,14 +9,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
+
 public class MainGame implements Screen {
     final Pong game;
 
     SpriteBatch batch;
-
     OrthographicCamera camera;
-
     ShapeRenderer shapeRenderer;
+
+    int paddleLefty;
+    int paddleRighty;
 
     public void netLines() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -28,13 +31,29 @@ public class MainGame implements Screen {
         shapeRenderer.end();
     }
 
+    public void paddle(int x, int y) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(1,1,1,1);
+        shapeRenderer.rect(x, y, 20, 70);
+        shapeRenderer.end();
+    }
+
+    public void movePlayer() {
+        if(Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W))
+            paddleLefty = paddleLefty + 5;
+        if(Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S))
+            paddleLefty = paddleLefty - 5;
+
+        if(paddleLefty > 480) { paddleLefty = 480 - 80; }
+        if(paddleLefty < 0) { paddleLefty = 10; }
+    }
 
     public MainGame(final Pong gam) {
         this.game = gam;
         batch = new SpriteBatch();
-
         camera = new OrthographicCamera();
-
+        paddleLefty = 240;
+        paddleRighty = 250;
         shapeRenderer = new ShapeRenderer();
         camera.setToOrtho(false, 800, 480);
     }
@@ -44,12 +63,11 @@ public class MainGame implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.end();
-
         netLines();
+        paddle(10, paddleLefty);
+        paddle(770,paddleRighty);
 
+        movePlayer();
     }
 
     @Override

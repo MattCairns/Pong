@@ -11,7 +11,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
-
+// TODO: Put the paddle and ball into seperate class files.
+// TODO: Change font to pong font.
 public class MainGame implements Screen {
     final Pong game;
 

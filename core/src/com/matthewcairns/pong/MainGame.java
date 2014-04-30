@@ -22,7 +22,6 @@ public class MainGame implements Screen {
     Rectangle paddleRight;
     Rectangle ball;
 
-
     int scoreLeft;
     int scoreRight;
 
@@ -64,12 +63,16 @@ public class MainGame implements Screen {
             ballySpeed *= -1;
         }
 
-        if(ball.x > 800 - ball.width) {
-            ballxSpeed *= -1;
+        if(ball.x > 800) {
+            scoreLeft = scoreLeft + 1;
+            ball.x = 400;
+            ball.y = 240;
         }
 
         if(ball.x < 0) {
-            ballxSpeed *= -1;
+            scoreRight = scoreRight + 1;
+            ball.x = 400;
+            ball.y = 240;
         }
 
         if(ball.overlaps(paddleLeft)) {
@@ -78,8 +81,8 @@ public class MainGame implements Screen {
         }
 
         if(ball.overlaps(paddleRight)) {
-            ballxSpeed = MathUtils.random(5, 10);
-            ballySpeed = MathUtils.random(5, 10);
+            ballxSpeed = MathUtils.random(5, 10) * -1;
+            ballySpeed = MathUtils.random(5, 10) * -1;
         }
     }
 
@@ -104,7 +107,7 @@ public class MainGame implements Screen {
     public void movePlayer() {
         if(Gdx.input.isKeyPressed(Keys.W))
             paddleLeft.y = paddleLeft.y + 10;
-        if(Gdx.input.isKeyPressed(Keys.D))
+        if(Gdx.input.isKeyPressed(Keys.X))
             paddleLeft.y = paddleLeft.y - 10;
 
         if(paddleLeft.y > camera.viewportHeight-80) { paddleLeft.y = camera.viewportHeight - 80; }
@@ -126,6 +129,9 @@ public class MainGame implements Screen {
 
         ballxSpeed = 5;
         ballySpeed = 5;
+
+        scoreLeft = 0;
+        scoreRight = 0;
 
         player();
         player2();
@@ -150,6 +156,11 @@ public class MainGame implements Screen {
         batch.draw(paddleImage, paddleRight.x, paddleRight.y);
         batch.draw(ballImage, ball.x, ball.y);
         batch.end();
+
+        game.batch.begin();
+        game.font.draw(game.batch, String.valueOf(scoreLeft), 100, 400);
+        game.font.draw(game.batch, String.valueOf(scoreRight), 700, 400);
+        game.batch.end();
 
         netLines();
 

@@ -19,7 +19,12 @@ public class MainGame implements Screen {
     Texture paddleImage;
     Texture ballImage;
     Rectangle paddleLeft;
+    Rectangle paddleRight;
     Rectangle ball;
+
+
+    int scoreLeft;
+    int scoreRight;
 
     int ballxSpeed;
     int ballySpeed;
@@ -71,6 +76,11 @@ public class MainGame implements Screen {
             ballxSpeed = MathUtils.random(5, 10);
             ballySpeed = MathUtils.random(5, 10);
         }
+
+        if(ball.overlaps(paddleRight)) {
+            ballxSpeed = MathUtils.random(5, 10);
+            ballySpeed = MathUtils.random(5, 10);
+        }
     }
 
     public void player() {
@@ -80,18 +90,35 @@ public class MainGame implements Screen {
         paddleLeft.y = 240;
         paddleLeft.width = 20;
         paddleLeft.height = 70;
-        System.out.println(paddleLeft);
+    }
 
+    public void player2() {
+        paddleImage = new Texture(Gdx.files.internal("paddle.png"));
+        paddleRight = new Rectangle();
+        paddleRight.x = 770;
+        paddleRight.y = 240;
+        paddleRight.width = 20;
+        paddleRight.height = 70;
     }
 
     public void movePlayer() {
-        if(Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W))
+        if(Gdx.input.isKeyPressed(Keys.W))
             paddleLeft.y = paddleLeft.y + 10;
-        if(Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S))
+        if(Gdx.input.isKeyPressed(Keys.D))
             paddleLeft.y = paddleLeft.y - 10;
 
         if(paddleLeft.y > camera.viewportHeight-80) { paddleLeft.y = camera.viewportHeight - 80; }
         if(paddleLeft.y < 10) { paddleLeft.y = 10; }
+    }
+
+    public void movePlayer2() {
+        if(Gdx.input.isKeyPressed(Keys.UP))
+            paddleRight.y = paddleRight.y + 10;
+        if(Gdx.input.isKeyPressed(Keys.DOWN))
+            paddleRight.y = paddleRight.y - 10;
+
+        if(paddleRight.y > camera.viewportHeight-80) { paddleRight.y = camera.viewportHeight - 80; }
+        if(paddleRight.y < 10) { paddleRight.y = 10; }
     }
 
     public MainGame(final Pong gam) {
@@ -101,6 +128,7 @@ public class MainGame implements Screen {
         ballySpeed = 5;
 
         player();
+        player2();
         ball();
 
         batch = new SpriteBatch();
@@ -119,12 +147,15 @@ public class MainGame implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(paddleImage, paddleLeft.x, paddleLeft.y);
+        batch.draw(paddleImage, paddleRight.x, paddleRight.y);
         batch.draw(ballImage, ball.x, ball.y);
         batch.end();
 
         netLines();
 
         movePlayer();
+        movePlayer2();
+
         ballMove();
     }
 

@@ -41,9 +41,10 @@ public class MainMenuScreen implements Screen {
 
         game.batch.begin();
         game.bigFont.draw(game.batch, "PONG", 400-titleWidth/2, 400);
-        game.smallFont.draw(game.batch, "- 1 PLAYER", 250, 300);
-        game.smallFont.draw(game.batch, "- 2 PLAYER", 250, 250);
-        game.smallFont.draw(game.batch, "- CREDITS", 250, 200);
+        game.smallFont.draw(game.batch, "PLAY", 325, 250);
+//        game.smallFont.draw(game.batch, "- 1 PLAYER", 250, 300);
+//        game.smallFont.draw(game.batch, "- 2 PLAYER", 250, 250);
+//        game.smallFont.draw(game.batch, "- CREDITS", 250, 200);
 
         game.batch.end();
 

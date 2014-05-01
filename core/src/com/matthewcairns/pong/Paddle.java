@@ -34,7 +34,7 @@ public class Paddle {
         if(leftOrRight.equals("left")) {
             if (Gdx.input.isKeyPressed(Input.Keys.W))
                 paddle.y = paddle.y + PADDLE_SPEED;
-            if (Gdx.input.isKeyPressed(Input.Keys.X))
+            if (Gdx.input.isKeyPressed(Input.Keys.S))
                 paddle.y = paddle.y - PADDLE_SPEED;
         }
 

@@ -1,7 +1,6 @@
 package com.matthewcairns.pong;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,17 +10,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
-// TODO: Put the paddle and ball into seperate class files.
+// TODO: Put the ball into seperate class files.
 // TODO: Change font to pong font.
 public class MainGame implements Screen {
     final Pong game;
 
     SpriteBatch batch;
-    Texture paddleImage;
     Texture ballImage;
-    Rectangle paddleLeft;
-    Rectangle paddleRight;
     Rectangle ball;
+
+    Paddle paddleLeft;
+    Paddle paddleRight;
 
     int scoreLeft;
     int scoreRight;
@@ -76,54 +75,17 @@ public class MainGame implements Screen {
             ball.y = 240;
         }
 
-        if(ball.overlaps(paddleLeft)) {
+        if(ball.overlaps(paddleLeft.getPaddle())) {
             ballxSpeed = MathUtils.random(5, 10);
             ballySpeed = MathUtils.random(5, 10);
         }
 
-        if(ball.overlaps(paddleRight)) {
+        if(ball.overlaps(paddleRight.getPaddle())) {
             ballxSpeed = MathUtils.random(5, 10) * -1;
             ballySpeed = MathUtils.random(5, 10) * -1;
         }
     }
 
-    public void player() {
-        paddleImage = new Texture(Gdx.files.internal("paddle.png"));
-        paddleLeft = new Rectangle();
-        paddleLeft.x = 10;
-        paddleLeft.y = 240;
-        paddleLeft.width = 20;
-        paddleLeft.height = 70;
-    }
-
-    public void player2() {
-        paddleImage = new Texture(Gdx.files.internal("paddle.png"));
-        paddleRight = new Rectangle();
-        paddleRight.x = 770;
-        paddleRight.y = 240;
-        paddleRight.width = 20;
-        paddleRight.height = 70;
-    }
-
-    public void movePlayer() {
-        if(Gdx.input.isKeyPressed(Keys.W))
-            paddleLeft.y = paddleLeft.y + 10;
-        if(Gdx.input.isKeyPressed(Keys.X))
-            paddleLeft.y = paddleLeft.y - 10;
-
-        if(paddleLeft.y > camera.viewportHeight-80) { paddleLeft.y = camera.viewportHeight - 80; }
-        if(paddleLeft.y < 10) { paddleLeft.y = 10; }
-    }
-
-    public void movePlayer2() {
-        if(Gdx.input.isKeyPressed(Keys.UP))
-            paddleRight.y = paddleRight.y + 10;
-        if(Gdx.input.isKeyPressed(Keys.DOWN))
-            paddleRight.y = paddleRight.y - 10;
-
-        if(paddleRight.y > camera.viewportHeight-80) { paddleRight.y = camera.viewportHeight - 80; }
-        if(paddleRight.y < 10) { paddleRight.y = 10; }
-    }
 
     public MainGame(final Pong gam) {
         this.game = gam;
@@ -134,8 +96,9 @@ public class MainGame implements Screen {
         scoreLeft = 0;
         scoreRight = 0;
 
-        player();
-        player2();
+        paddleLeft = new Paddle(10, 240, "left");
+        paddleRight = new Paddle(770, 240, "right");
+
         ball();
 
         batch = new SpriteBatch();
@@ -153,8 +116,8 @@ public class MainGame implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(paddleImage, paddleLeft.x, paddleLeft.y);
-        batch.draw(paddleImage, paddleRight.x, paddleRight.y);
+        batch.draw(paddleLeft.getPaddleImage(), paddleLeft.getPaddle().x, paddleLeft.getPaddle().y);
+        batch.draw(paddleRight.getPaddleImage(), paddleRight.getPaddle().x, paddleRight.getPaddle().y);
         batch.draw(ballImage, ball.x, ball.y);
         batch.end();
 
@@ -165,8 +128,8 @@ public class MainGame implements Screen {
 
         netLines();
 
-        movePlayer();
-        movePlayer2();
+        paddleLeft.movePlayer();
+        paddleRight.movePlayer();
 
         ballMove();
     }

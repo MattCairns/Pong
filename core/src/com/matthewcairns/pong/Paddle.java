@@ -56,12 +56,4 @@ public class Paddle {
     public Texture getPaddleImage() {
         return paddleImage;
     }
-
-    public void setPADDLE_SPEED(int PADDLE_SPEED) {
-        this.PADDLE_SPEED = PADDLE_SPEED;
-    }
-
-    public int getPADDLE_SPEED() {
-        return PADDLE_SPEED;
-    }
 }

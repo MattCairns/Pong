@@ -11,8 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
  * All rights reserved.
  */
 public class Ball {
-    int xSpeed = 10;
-    int ySpeed = 10;
+    int xSpeed = 5;
+    int ySpeed = 5;
 
     private Rectangle ball;
     private Texture ballImage;
@@ -25,6 +25,9 @@ public class Ball {
 
     public Ball(int x, int y) {
         ballImage = new Texture(Gdx.files.internal("ball.png"));
+        lowBlip = Gdx.audio.newSound(Gdx.files.internal("lowblip.wav"));
+        highBlip = Gdx.audio.newSound(Gdx.files.internal("highblip.wav"));
+
         ball = new Rectangle();
         ball.x = x;
         ball.y = y;
@@ -41,10 +44,12 @@ public class Ball {
 
         if(ball.y > 480 - ball.width) {
             ySpeed *= -1;
+            highBlip.play();
         }
 
         if(ball.y < 0) {
             ySpeed *= -1;
+            highBlip.play();
         }
 
         if(ball.x > 800) {
@@ -60,13 +65,15 @@ public class Ball {
         }
 
         if(ball.overlaps(left)) {
-            xSpeed = MathUtils.random(5, 10);
-            ySpeed = MathUtils.random(5, 10);
+            xSpeed = MathUtils.random(5, 7);
+            ySpeed = MathUtils.random(5, 7);
+            lowBlip.play();
         }
 
         if(ball.overlaps(right)) {
-            xSpeed = MathUtils.random(5, 10) * -1;
-            ySpeed = MathUtils.random(5, 10) * -1;
+            xSpeed = MathUtils.random(5, 7) * -1;
+            ySpeed = MathUtils.random(5, 7) * -1;
+            lowBlip.play();
         }
     }
 

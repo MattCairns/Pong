@@ -4,13 +4,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 
-// TODO: Put the ball into seperate class files.
+/**
+ * Created by Matthew Cairns on 28/04/2014.
+ * All rights reserved.
+ */
 // TODO: Change font to pong font.
 public class MainGame implements Screen {
     final Pong game;
@@ -65,8 +65,8 @@ public class MainGame implements Screen {
         batch.end();
 
         game.batch.begin();
-        game.font.draw(game.batch, String.valueOf(ball.getScoreLeft()), 100, 400);
-        game.font.draw(game.batch, String.valueOf(ball.getScoreRight()), 700, 400);
+        game.bigFont.draw(game.batch, String.valueOf(ball.getScoreLeft()), 100, 400);
+        game.bigFont.draw(game.batch, String.valueOf(ball.getScoreRight()), 700, 400);
         game.batch.end();
 
         netLines();

@@ -1,6 +1,7 @@
 package com.matthewcairns.pong;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -15,6 +16,9 @@ public class Ball {
 
     private Rectangle ball;
     private Texture ballImage;
+
+    private Sound lowBlip;
+    private Sound highBlip;
 
     int scoreLeft;
     int scoreRight;

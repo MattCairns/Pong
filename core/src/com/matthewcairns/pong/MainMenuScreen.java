@@ -1,7 +1,8 @@
 package com.matthewcairns.pong;
 
 /**
- * Created by Matthew on 28/04/2014.
+ * Created by Matthew Cairns on 28/04/2014.
+ * All rights reserved.
  */
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,10 +12,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 public class MainMenuScreen implements Screen {
     final Pong game;
 
+    private String title = "PONG";
+    private float titleWidth;
+    private float titleHeight;
+
+
     OrthographicCamera camera;
 
     public MainMenuScreen(final Pong gam) {
         game = gam;
+
+        titleWidth = game.bigFont.getBounds(title).width;
+        titleHeight = game.bigFont.getBounds(title).height;
+
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
@@ -30,10 +40,10 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "PONG", 400, 400);
-        game.font.draw(game.batch, "- 1 PLAYER", 400, 300);
-        game.font.draw(game.batch, "- 2 PLAYER", 400, 250);
-        game.font.draw(game.batch, "- CREDITS", 400, 200);
+        game.bigFont.draw(game.batch, "PONG", 400-titleWidth/2, 400);
+        game.smallFont.draw(game.batch, "- 1 PLAYER", 250, 300);
+        game.smallFont.draw(game.batch, "- 2 PLAYER", 250, 250);
+        game.smallFont.draw(game.batch, "- CREDITS", 250, 200);
 
         game.batch.end();
 

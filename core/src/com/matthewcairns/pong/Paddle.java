@@ -11,39 +11,55 @@ import com.badlogic.gdx.math.Rectangle;
  */
 
 public class Paddle {
-
     private int PADDLE_SPEED = 10;
 
     private Rectangle paddle;
     private Texture paddleImage;
 
-    private String leftOrRight;
-
-    public Paddle(int x, int y, String lr) {
+    public Paddle() {
         paddleImage = new Texture(Gdx.files.internal("paddle.png"));
         paddle = new Rectangle();
-        paddle.x = x;
-        paddle.y = y;
+        paddle.x = 0;
+        paddle.y = 240;
         paddle.width = 20;
         paddle.height = 70;
-
-        leftOrRight = lr;
     }
 
-    public void movePlayer() {
-        if(leftOrRight.equals("left")) {
-            if (Gdx.input.isKeyPressed(Input.Keys.W))
-                paddle.y = paddle.y + PADDLE_SPEED;
-            if (Gdx.input.isKeyPressed(Input.Keys.S))
-                paddle.y = paddle.y - PADDLE_SPEED;
+    private void isLeft() {
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+            paddle.y = paddle.y + PADDLE_SPEED;
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
+            paddle.y = paddle.y - PADDLE_SPEED;
+    }
+
+    private void isRight() {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+            paddle.y = paddle.y + PADDLE_SPEED;
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            paddle.y = paddle.y - PADDLE_SPEED;
+    }
+
+    public void ai(Rectangle ball) {
+
+        if(paddle.y > ball.y) {
+            paddle.y = paddle.y - 6;
+            System.out.println("down");
         }
 
-        if(leftOrRight.equals("right")) {
-            if (Gdx.input.isKeyPressed(Input.Keys.UP))
-                paddle.y = paddle.y + PADDLE_SPEED;
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-                paddle.y = paddle.y - PADDLE_SPEED;
+        if(paddle.y < ball.y) {
+            paddle.y = paddle.y + 6;
+            System.out.println("up");
         }
+    }
+
+    public void movePlayer(String rightOrLeft, Rectangle ball) {
+        if(rightOrLeft.equals("left"))
+            isLeft();
+        if(rightOrLeft.equals("right"))
+            isRight();
+
+        if(rightOrLeft.equals("ai"))
+            ai(ball);
 
         if(paddle.y > 480-80) { paddle.y = 480-80; }
         if(paddle.y < 10) { paddle.y = 10; }
@@ -52,7 +68,6 @@ public class Paddle {
     public Rectangle getPaddle() {
         return paddle;
     }
-
     public Texture getPaddleImage() {
         return paddleImage;
     }

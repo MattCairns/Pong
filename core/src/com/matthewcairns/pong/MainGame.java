@@ -36,11 +36,14 @@ public class MainGame implements Screen {
         shapeRenderer.end();
     }
 
-    public MainGame(final Pong gam) {
+    public MainGame(final Pong gam, Boolean isAI) {
         this.game = gam;
 
-        paddleLeft = new Paddle(10, 240, "left");
-        paddleRight = new Paddle(770, 240, "right");
+        paddleLeft = new Paddle();
+        paddleRight = new Paddle();
+
+        paddleLeft.getPaddle().x = 10;
+        paddleRight.getPaddle().x = 770;
 
         ball = new Ball(400, 240);
 
@@ -71,10 +74,15 @@ public class MainGame implements Screen {
 
         netLines();
 
-        paddleLeft.movePlayer();
-        paddleRight.movePlayer();
+        paddleLeft.movePlayer("ai", ball.getBall());
+        paddleRight.movePlayer("ai", ball.getBall());
 
         ball.move(paddleLeft.getPaddle(), paddleRight.getPaddle());
+
+//        if(isAI) {
+//            System.out.println(ball.getBall().y);
+//            paddleLeft.ai(ball.getBall());
+//        }
     }
 
     @Override

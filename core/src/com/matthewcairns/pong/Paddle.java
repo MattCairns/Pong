@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 
 public class Paddle {
-    private int PADDLE_SPEED = 10;
+    private int PADDLE_SPEED = 400;
 
     private Rectangle paddle;
     private Texture paddleImage;
@@ -27,28 +27,27 @@ public class Paddle {
 
     private void isLeft() {
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            paddle.y = paddle.y + PADDLE_SPEED;
+            paddle.y += Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            paddle.y = paddle.y - PADDLE_SPEED;
+            paddle.y -= Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
     }
 
     private void isRight() {
         if (Gdx.input.isKeyPressed(Input.Keys.UP))
-            paddle.y = paddle.y + PADDLE_SPEED;
+            paddle.y += Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            paddle.y = paddle.y - PADDLE_SPEED;
+            paddle.y -= Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
     }
 
     public void ai(Rectangle ball) {
 
         if(paddle.y > ball.y) {
-            paddle.y = paddle.y - 6;
-            System.out.println("down");
+            paddle.y -= Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
+            System.out.println(Gdx.graphics.getDeltaTime());
         }
 
         if(paddle.y < ball.y) {
-            paddle.y = paddle.y + 6;
-            System.out.println("up");
+            paddle.y += Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
         }
     }
 

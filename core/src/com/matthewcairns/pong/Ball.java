@@ -11,8 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
  * All rights reserved.
  */
 public class Ball {
-    int xSpeed = 5;
-    int ySpeed = 5;
+    int xSpeed = 300;
+    int ySpeed = 300;
 
     private Rectangle ball;
     private Texture ballImage;
@@ -39,8 +39,8 @@ public class Ball {
     }
 
     public void move(Rectangle left, Rectangle right) {
-        ball.x = ball.x + xSpeed;
-        ball.y = ball.y + ySpeed;
+        ball.x += Gdx.graphics.getDeltaTime() * xSpeed;
+        ball.y += Gdx.graphics.getDeltaTime() * ySpeed;
 
         if(ball.y > 480 - ball.width) {
             ySpeed *= -1;
@@ -65,14 +65,14 @@ public class Ball {
         }
 
         if(ball.overlaps(left)) {
-            xSpeed = MathUtils.random(5, 7);
-            ySpeed = MathUtils.random(5, 7);
+            xSpeed = MathUtils.random(300, 500);
+            ySpeed = MathUtils.random(300, 500);
             lowBlip.play();
         }
 
         if(ball.overlaps(right)) {
-            xSpeed = MathUtils.random(5, 7) * -1;
-            ySpeed = MathUtils.random(5, 7) * -1;
+            xSpeed = MathUtils.random(300, 500) * -1;
+            ySpeed = MathUtils.random(300, 500) * -1;
             lowBlip.play();
         }
     }

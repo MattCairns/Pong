@@ -2,6 +2,7 @@ package com.matthewcairns.pong;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  * Created by Matthew Cairns on 28/04/2014.
  * All rights reserved.
  */
-// TODO: Change font to pong font.
 public class MainGame implements Screen {
     final Pong game;
 
@@ -19,6 +19,8 @@ public class MainGame implements Screen {
 
     Paddle paddleLeft;
     Paddle paddleRight;
+
+    FPSLogger fps;
 
     Ball ball;
 
@@ -52,6 +54,8 @@ public class MainGame implements Screen {
 
         shapeRenderer = new ShapeRenderer();
         camera.setToOrtho(false, 800, 480);
+
+        fps = new FPSLogger();
     }
 
     @Override
@@ -68,21 +72,19 @@ public class MainGame implements Screen {
         batch.end();
 
         game.batch.begin();
-        game.bigFont.draw(game.batch, String.valueOf(ball.getScoreLeft()), 100, 400);
-        game.bigFont.draw(game.batch, String.valueOf(ball.getScoreRight()), 700, 400);
+        game.bigFont.draw(game.batch, String.valueOf(ball.getScoreLeft()), 300, 450);
+        game.bigFont.draw(game.batch, String.valueOf(ball.getScoreRight()), 450, 450);
         game.batch.end();
 
         netLines();
 
         paddleLeft.movePlayer("ai", ball.getBall());
-        paddleRight.movePlayer("ai", ball.getBall());
+        paddleRight.movePlayer("right", ball.getBall());
 
         ball.move(paddleLeft.getPaddle(), paddleRight.getPaddle());
 
-//        if(isAI) {
-//            System.out.println(ball.getBall().y);
-//            paddleLeft.ai(ball.getBall());
-//        }
+        fps.log();
+
     }
 
     @Override

@@ -8,14 +8,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class MainMenuScreen implements Screen {
     final Pong game;
 
     private String title = "PONG";
     private float titleWidth;
-    private float titleHeight;
 
+    Stage stage;
+    TextButton titleButton;
+    TextButton onePlayer;
+    TextButton twoPlayer;
+    TextButton aiVSai;
+
+    TextButton.TextButtonStyle textButtonStyle;
+    TextButton.TextButtonStyle titleButtonStyle;
 
     OrthographicCamera camera;
 
@@ -23,16 +34,65 @@ public class MainMenuScreen implements Screen {
         game = gam;
 
         titleWidth = game.bigFont.getBounds(title).width;
-        titleHeight = game.bigFont.getBounds(title).height;
 
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        titleButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = gam.smallFont;
+        titleButtonStyle.font = gam.bigFont;
+
+        titleButton = new TextButton("PONG", titleButtonStyle);
+        titleButton.setPosition(275, 350);
+        onePlayer = new TextButton("PLAYER VS COMPUTER", textButtonStyle);
+        onePlayer.setPosition(100, 300);
+        twoPlayer = new TextButton("PLAYER VS PLAYER", textButtonStyle);
+        twoPlayer.setPosition(100, 250);
+        aiVSai = new TextButton("COMPUTER VS COMPUTER", textButtonStyle);
+        aiVSai.setPosition(100, 200);
+
+        stage.addActor(titleButton);
+        stage.addActor(onePlayer);
+        stage.addActor(twoPlayer);
+        stage.addActor(aiVSai);
+
+        onePlayer.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                gam.setScreen(new MainGame(game, "ai", "right"));
+            }
+        });
+
+        twoPlayer.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                gam.setScreen(new MainGame(game, "left", "right"));
+            }
+        });
+
+        aiVSai.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                gam.setScreen(new MainGame(game, "ai", "ai"));
+            }
+        });
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
     }
 
+
     @Override
     public void render (float delta) {
-        //TODO: Revamp main menu.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -40,18 +100,11 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.bigFont.draw(game.batch, "PONG", 400-titleWidth/2, 400);
-        game.smallFont.draw(game.batch, "PLAY", 325, 250);
-//        game.smallFont.draw(game.batch, "- 1 PLAYER", 250, 300);
-//        game.smallFont.draw(game.batch, "- 2 PLAYER", 250, 250);
-//        game.smallFont.draw(game.batch, "- CREDITS", 250, 200);
+        stage.draw();
+
 
         game.batch.end();
 
-        if(Gdx.input.isTouched()) {
-            game.setScreen(new MainGame(game, "ai", "ai"));
-            dispose();
-        }
     }
 
     @Override

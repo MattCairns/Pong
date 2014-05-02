@@ -44,11 +44,13 @@ public class Ball {
 
         if(ball.y > 480 - ball.width) {
             ySpeed *= -1;
+            ball.y -= 5;
             highBlip.play();
         }
 
         if(ball.y < 0) {
             ySpeed *= -1;
+            ball.y += 5;
             highBlip.play();
         }
 

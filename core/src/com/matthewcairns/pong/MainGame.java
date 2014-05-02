@@ -2,7 +2,6 @@ package com.matthewcairns.pong;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,7 +19,8 @@ public class MainGame implements Screen {
     Paddle paddleLeft;
     Paddle paddleRight;
 
-    FPSLogger fps;
+    String l;
+    String r;
 
     Ball ball;
 
@@ -38,8 +38,10 @@ public class MainGame implements Screen {
         shapeRenderer.end();
     }
 
-    public MainGame(final Pong gam, Boolean isAI) {
+    public MainGame(final Pong gam, String left, String right) {
         this.game = gam;
+        l = left;
+        r = right;
 
         paddleLeft = new Paddle();
         paddleRight = new Paddle();
@@ -55,7 +57,6 @@ public class MainGame implements Screen {
         shapeRenderer = new ShapeRenderer();
         camera.setToOrtho(false, 800, 480);
 
-        fps = new FPSLogger();
     }
 
     @Override
@@ -67,6 +68,7 @@ public class MainGame implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(paddleLeft.getPaddleImage(), paddleLeft.getPaddle().x, paddleLeft.getPaddle().y);
+
         batch.draw(paddleRight.getPaddleImage(), paddleRight.getPaddle().x, paddleRight.getPaddle().y);
         batch.draw(ball.getBallImage(), ball.getBall().x, ball.getBall().y);
         batch.end();
@@ -78,14 +80,12 @@ public class MainGame implements Screen {
 
         netLines();
 
-        paddleLeft.movePlayer("ai", ball.getBall());
-        paddleRight.movePlayer("right", ball.getBall());
+        paddleLeft.movePlayer(l, ball.getBall());
+        paddleRight.movePlayer(r, ball.getBall());
 
         ball.move(paddleLeft.getPaddle(), paddleRight.getPaddle());
-
-        fps.log();
-
     }
+
 
     @Override
     public void resume() {}

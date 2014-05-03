@@ -43,7 +43,6 @@ public class Paddle {
 
         if(paddle.y > ball.y) {
             paddle.y -= Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
-            System.out.println(Gdx.graphics.getDeltaTime());
         }
 
         if(paddle.y < ball.y) {

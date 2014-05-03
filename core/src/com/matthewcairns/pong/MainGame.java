@@ -69,7 +69,6 @@ public class MainGame implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(paddleLeft.getPaddleImage(), paddleLeft.getPaddle().x, paddleLeft.getPaddle().y);
-
         batch.draw(paddleRight.getPaddleImage(), paddleRight.getPaddle().x, paddleRight.getPaddle().y);
         batch.draw(ball.getBallImage(), ball.getBall().x, ball.getBall().y);
         batch.end();

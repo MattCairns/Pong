@@ -12,18 +12,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MainMenuScreen implements Screen {
     final Pong game;
 
-    private String title = "PONG";
-    private float titleWidth;
 
     Stage stage;
+
     TextButton titleButton;
     TextButton onePlayer;
     TextButton twoPlayer;
     TextButton aiVSai;
+    TextButton credits;
 
     TextButton.TextButtonStyle textButtonStyle;
     TextButton.TextButtonStyle titleButtonStyle;
@@ -33,9 +34,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final Pong gam) {
         game = gam;
 
-        titleWidth = game.bigFont.getBounds(title).width;
-
-        stage = new Stage();
+        stage = new Stage(new FitViewport(800, 480));
         Gdx.input.setInputProcessor(stage);
         textButtonStyle = new TextButton.TextButtonStyle();
         titleButtonStyle = new TextButton.TextButtonStyle();
@@ -43,18 +42,22 @@ public class MainMenuScreen implements Screen {
         titleButtonStyle.font = gam.bigFont;
 
         titleButton = new TextButton("PONG", titleButtonStyle);
-        titleButton.setPosition(275, 350);
+        titleButton.setPosition(400-game.bigFont.getBounds("PONG").width/2, 350);
         onePlayer = new TextButton("PLAYER VS COMPUTER", textButtonStyle);
-        onePlayer.setPosition(100, 300);
+        onePlayer.setPosition(400-game.smallFont.getBounds("PLAYER VS COMPUTER").width/2, 300);
         twoPlayer = new TextButton("PLAYER VS PLAYER", textButtonStyle);
-        twoPlayer.setPosition(100, 250);
+        twoPlayer.setPosition(400-game.smallFont.getBounds("PLAYER VS PLAYER").width/2, 250);
         aiVSai = new TextButton("COMPUTER VS COMPUTER", textButtonStyle);
-        aiVSai.setPosition(100, 200);
+        aiVSai.setPosition(400-game.smallFont.getBounds("COMPUTER VS COMPUTER").width/2, 200);
+        credits = new TextButton("CREDITS", textButtonStyle);
+        credits.setPosition(400-game.smallFont.getBounds("CREDITS").width/2, 100);
 
         stage.addActor(titleButton);
         stage.addActor(onePlayer);
         stage.addActor(twoPlayer);
         stage.addActor(aiVSai);
+        stage.addActor(credits);
+
 
         onePlayer.addListener(new InputListener() {
             @Override
@@ -86,6 +89,16 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        credits.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                gam.setScreen(new Credits(game));
+            }
+        });
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
     }
@@ -97,14 +110,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
         stage.draw();
-
-
-        game.batch.end();
-
     }
 
     @Override
@@ -118,5 +124,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {}
     @Override
-    public void dispose() {}
+    public void dispose() {
+        stage.dispose();
+    }
 }

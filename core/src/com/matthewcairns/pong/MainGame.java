@@ -29,6 +29,7 @@ public class MainGame implements Screen {
     ShapeRenderer shapeRenderer;
 
     public void netLines() {
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 1, 1, 1);
         int y = 480;
@@ -66,14 +67,12 @@ public class MainGame implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(paddleLeft.getPaddleImage(), paddleLeft.getPaddle().x, paddleLeft.getPaddle().y);
-        batch.draw(paddleRight.getPaddleImage(), paddleRight.getPaddle().x, paddleRight.getPaddle().y);
-        batch.draw(ball.getBallImage(), ball.getBall().x, ball.getBall().y);
-        batch.end();
+        game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+        game.batch.draw(paddleLeft.getPaddleImage(), paddleLeft.getPaddle().x, paddleLeft.getPaddle().y);
+        game.batch.draw(paddleRight.getPaddleImage(), paddleRight.getPaddle().x, paddleRight.getPaddle().y);
+        game.batch.draw(ball.getBallImage(), ball.getBall().x, ball.getBall().y);
         game.bigFont.draw(game.batch, String.valueOf(ball.getScoreLeft()), 300, 450);
         game.bigFont.draw(game.batch, String.valueOf(ball.getScoreRight()), 450, 450);
         game.batch.end();

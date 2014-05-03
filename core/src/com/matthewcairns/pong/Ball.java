@@ -19,6 +19,7 @@ public class Ball {
 
     private Sound lowBlip;
     private Sound highBlip;
+    private Sound scoreBlip;
 
     int scoreLeft;
     int scoreRight;
@@ -27,6 +28,7 @@ public class Ball {
         ballImage = new Texture(Gdx.files.internal("ball.png"));
         lowBlip = Gdx.audio.newSound(Gdx.files.internal("lowblip.wav"));
         highBlip = Gdx.audio.newSound(Gdx.files.internal("highblip.wav"));
+        scoreBlip = Gdx.audio.newSound((Gdx.files.internal("scoreblip.ogg")));
 
         ball = new Rectangle();
         ball.x = x;
@@ -58,12 +60,14 @@ public class Ball {
             scoreLeft = scoreLeft + 1;
             ball.x = 400;
             ball.y = 240;
+            scoreBlip.play();
         }
 
         if(ball.x < 0) {
             scoreRight = scoreRight + 1;
             ball.x = 400;
             ball.y = 240;
+            scoreBlip.play();
         }
 
         if(ball.overlaps(left)) {

@@ -41,11 +41,11 @@ public class Paddle {
 
     public void ai(Rectangle ball) {
 
-        if(paddle.y > ball.y) {
+        if(paddle.y+35 > ball.y) {
             paddle.y -= Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
         }
 
-        if(paddle.y < ball.y) {
+        if(paddle.y+35 < ball.y) {
             paddle.y += Gdx.graphics.getDeltaTime() * PADDLE_SPEED;
         }
     }

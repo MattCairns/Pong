@@ -73,11 +73,15 @@ public class MainGame implements Screen {
         game.batch.draw(paddleLeft.getPaddleImage(), paddleLeft.getPaddle().x, paddleLeft.getPaddle().y);
         game.batch.draw(paddleRight.getPaddleImage(), paddleRight.getPaddle().x, paddleRight.getPaddle().y);
         game.batch.draw(ball.getBallImage(), ball.getBall().x, ball.getBall().y);
+        ball.getParticle().draw(game.batch);
+
         game.bigFont.draw(game.batch, String.valueOf(ball.getScoreLeft()), 300, 450);
         game.bigFont.draw(game.batch, String.valueOf(ball.getScoreRight()), 450, 450);
         game.batch.end();
 
         netLines();
+
+        ball.getParticle().update(delta);
 
         paddleLeft.movePlayer(l, ball.getBall());
         paddleRight.movePlayer(r, ball.getBall());

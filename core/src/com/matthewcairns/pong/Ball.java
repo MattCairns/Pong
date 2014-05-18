@@ -3,6 +3,7 @@ package com.matthewcairns.pong;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -17,6 +18,9 @@ public class Ball {
     private Rectangle ball;
     private Texture ballImage;
 
+    private ParticleEffect particle;
+
+
     private Sound lowBlip;
     private Sound highBlip;
     private Sound scoreBlip;
@@ -29,6 +33,9 @@ public class Ball {
         lowBlip = Gdx.audio.newSound(Gdx.files.internal("lowblip.wav"));
         highBlip = Gdx.audio.newSound(Gdx.files.internal("highblip.wav"));
         scoreBlip = Gdx.audio.newSound((Gdx.files.internal("scoreblip.ogg")));
+
+        particle = new ParticleEffect();
+        particle.load(Gdx.files.internal("paddle_hit"), Gdx.files.internal(""));
 
         ball = new Rectangle();
         ball.x = x;
@@ -74,12 +81,17 @@ public class Ball {
             xSpeed = MathUtils.random(300, 500);
             ySpeed = MathUtils.random(300, 500);
             lowBlip.play();
+
+            particle.setPosition(ball.getX(), ball.getY()+10);
+            particle.start();
         }
 
         if(ball.overlaps(right)) {
             xSpeed = MathUtils.random(300, 500) * -1;
             ySpeed = MathUtils.random(300, 500) * -1;
             lowBlip.play();
+            particle.setPosition(ball.getX(), ball.getY()+10);
+            particle.start();
         }
     }
 
@@ -97,4 +109,5 @@ public class Ball {
     public int getScoreRight() {
         return scoreRight;
     }
+    public ParticleEffect getParticle() { return particle; }
 }
